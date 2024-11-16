@@ -1,0 +1,130 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calm Reader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .settings {
+            margin-bottom: 20px;
+        }
+        .settings label {
+            margin-right: 10px;
+        }
+        .settings select {
+            padding: 5px;
+            margin-right: 10px;
+        }
+        .output {
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            min-height: 200px;
+            background-color: white;
+        }
+        button {
+            padding: 10px 15px;
+            color: #fff;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #4cae4c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calm Reader</h1>
+        <div class="settings">
+            <label for="background">Background:</label>
+            <select id="background">
+                <option value="#fff">White</option>
+                <option value="#f4f4f4">Light Gray</option>
+                <option value="#000">Black</option>
+            </select>
+
+            <label for="font">Font:</label>
+            <select id="font">
+                <option value="Arial">Arial</option>
+                <option value="Georgia">Georgia</option>
+                <option value="Courier New">Courier New</option>
+            </select>
+
+            <label for="fontSize">Font Size:</label>
+            <select id="fontSize">
+                <option value="14px">14px</option>
+                <option value="18px">18px</option>
+                <option value="24px">24px</option>
+            </select>
+        </div>
+
+        <textarea id="blogInput" rows="5" placeholder="Write your blog here..."></textarea>
+        <button onclick="publishBlog()">Publish Blog</button>
+
+        <input type="file" id="fileInput" accept=".txt,.pdf,.docx">
+        <button onclick="readFile()">Read File</button>
+
+        <div class="output" id="output"></div>
+    </div>
+
+    <script>
+        document.getElementById('background').addEventListener('change', function() {
+            document.getElementById('output').style.backgroundColor = this.value;
+        });
+
+        document.getElementById('font').addEventListener('change', function() {
+            document.getElementById('output').style.fontFamily = this.value;
+        });
+
+        document.getElementById('fontSize').addEventListener('change', function() {
+            document.getElementById('output').style.fontSize = this.value;
+        });
+
+        function publishBlog() {
+            const blogContent = document.getElementById('blogInput').value;
+            const outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = `<p>${blogContent}</p>`;
+        }
+
+        function readFile() {
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('output').innerHTML = `<pre>${e.target.result}</pre>`;
+                };
+                reader.readAsText(file);
+            } else {
+                alert('Please select a file!');
+            }
+        }
+    </script>
+</body>
+</html>
